@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bluetooth_device_list_title">Lista de dispositivos bluetooth</string>
+    <string name="tab_text_1">Conectar</string>
+    <string name="tab_text_2">Graficar</string>
+</resources>

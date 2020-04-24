@@ -1,0 +1,2 @@
+rootProject.name='BTController'
+include ':app'
