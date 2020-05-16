@@ -25,11 +25,13 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
                 fragment = new ClientFragment();
                 break;
             default:
-                fragment = PlaceholderFragment.newInstance(position + 1);
+                fragment = new GraphFragment();
                 break;
         }
         return fragment;
     }
+
+
 
     @Override
     public int getItemCount() {

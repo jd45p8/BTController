@@ -23,7 +23,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.btcontroller.BluetoothConnect;
+import com.example.btcontroller.buetooth.BluetoothCommunicationInterface;
+import com.example.btcontroller.buetooth.BluetoothConnection;
 import com.example.btcontroller.R;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ClientFragment extends Fragment {
     /**
      * Thread for starting a bluetooth connection
      */
-    private BluetoothConnect btConnect;
+    private BluetoothConnection btConnect;
 
     /**
      * Handler for handling bluetooth discovered devices event
@@ -162,7 +163,7 @@ public class ClientFragment extends Fragment {
      */
     private void connect(BluetoothDevice device, View v) {
         if (btConnect == null || btConnect.getState() == Thread.State.TERMINATED) {
-            btConnect = new BluetoothConnect(bluetoothAdapter, device, v);
+            btConnect = new BluetoothConnection(bluetoothAdapter, device, v);
             btConnect.start();
         }
     }
