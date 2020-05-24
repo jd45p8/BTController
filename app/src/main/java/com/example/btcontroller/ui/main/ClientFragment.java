@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.btcontroller.buetooth.BluetoothCommunicationInterface;
 import com.example.btcontroller.buetooth.BluetoothConnection;
 import com.example.btcontroller.R;
+import com.example.btcontroller.buetooth.BluetoothStreamsInterface;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class ClientFragment extends Fragment {
     private DeviceListAdapter deviceListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Activity parent;
+    private BluetoothStreamsInterface BSI;
 
     /**
      * Thread for update bluetooth device list
@@ -73,6 +75,11 @@ public class ClientFragment extends Fragment {
             }
         }
     };
+
+    public ClientFragment(BluetoothStreamsInterface BSI) {
+        super();
+        this.BSI = BSI;
+    }
 
     @Nullable
     @Override
@@ -163,7 +170,7 @@ public class ClientFragment extends Fragment {
      */
     private void connect(BluetoothDevice device, View v) {
         if (btConnect == null || btConnect.getState() == Thread.State.TERMINATED) {
-            btConnect = new BluetoothConnection(bluetoothAdapter, device, v);
+            btConnect = new BluetoothConnection(BSI, bluetoothAdapter, device, v);
             btConnect.start();
         }
     }

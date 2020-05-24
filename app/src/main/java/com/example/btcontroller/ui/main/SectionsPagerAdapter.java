@@ -6,14 +6,18 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.btcontroller.buetooth.BluetoothStreamsInterface;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentStateAdapter {
+    private BluetoothStreamsInterface BSI;
 
-    public SectionsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public SectionsPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, BluetoothStreamsInterface BSI) {
         super(fragmentManager, lifecycle);
+        this.BSI = BSI;
     }
 
     @NonNull
@@ -22,10 +26,10 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = new ClientFragment();
+                fragment = new ClientFragment(BSI);
                 break;
             default:
-                fragment = new GraphFragment();
+                fragment = new GraphFragment(BSI);
                 break;
         }
         return fragment;

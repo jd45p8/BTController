@@ -9,7 +9,6 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -17,12 +16,12 @@ public class BluetoothConnection extends Thread {
     private static final UUID SSP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private final BluetoothSocket bluetoothSocket;
     private final BluetoothAdapter bluetoothAdapter;
-    private InputStream inputStream;
-    private OutputStream outputStream;
-    private byte[] buffer;
     private final View view;
+    private BluetoothStreamsInterface BSI;
 
-    public BluetoothConnection(BluetoothAdapter adapter, BluetoothDevice device, View v) {
+
+    public BluetoothConnection(BluetoothStreamsInterface BSI, BluetoothAdapter adapter, BluetoothDevice device, View v) {
+        this.BSI = BSI;
         BluetoothSocket tmp = null;
         bluetoothAdapter = adapter;
         view = v;
@@ -40,17 +39,7 @@ public class BluetoothConnection extends Thread {
     @Override
     public void run() {
         if (connectToDevice() == 0) {
-            buffer = new byte[1024];
-            int numBytes;
-
-            while (bluetoothSocket.isConnected()) {
-                try {
-                    numBytes = inputStream.read(buffer);
-                } catch (IOException e) {
-                    Log.e("FAILED_READ_INPUT","Couldn't read input stream");
-                }
-            }
-            Snackbar.make(view, "Se ha terminado la conexión", Snackbar.LENGTH_LONG);
+            BSI.setBluetoothSocket(bluetoothSocket);
         }
     }
 
@@ -63,6 +52,8 @@ public class BluetoothConnection extends Thread {
 
         try {
             bluetoothSocket.connect();
+            OutputStream outputStream = bluetoothSocket.getOutputStream();
+            outputStream.write(1);
             Snackbar.make(view, "Conectado", Snackbar.LENGTH_LONG)
                     .show();
         } catch (IOException e) {
@@ -72,27 +63,6 @@ public class BluetoothConnection extends Thread {
             Log.e("CONNECTION_FAILED","Couldn't connect to SSP");
             cancel();
             return 1;
-        }
-
-        if (bluetoothSocket.isConnected()) {
-            InputStream tmpIn;
-            OutputStream tmpOut;
-
-            try {
-                inputStream = bluetoothSocket.getInputStream();
-            } catch (IOException e) {
-                Log.e("GET_INPUT_STREAM_FAILED","Couldn't get input stream");
-                Snackbar.make(view, "Algo ha salido mal", Snackbar.LENGTH_LONG);
-                return 1;
-            }
-
-            try {
-                outputStream = bluetoothSocket.getOutputStream();
-            } catch (IOException e) {
-                Log.e("GET_INPUT_STREAM_FAILED","Couldn't get output stream");
-                Snackbar.make(view, "Algo ha salido mal", Snackbar.LENGTH_LONG);
-                return 1;
-            }
         }
         return 0;
     }
