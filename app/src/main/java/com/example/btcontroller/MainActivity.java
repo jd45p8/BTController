@@ -73,4 +73,17 @@ public class MainActivity extends AppCompatActivity implements BluetoothStreamsI
 
         return false;
     }
+
+    @Override
+    public void closeConnection() {
+        if (bluetoothSocket != null) {
+            try {
+                bluetoothSocket.close();
+                String deviceName = bluetoothSocket.getRemoteDevice().getName();
+                Snackbar.make(findViewById(R.id.main), String.format("Desconectado de %s", deviceName), Snackbar.LENGTH_LONG);
+            } catch (IOException e) {
+                Log.e("GET_INPUT_STREAM_FAILED","Couldn't close connection");
+            }
+        }
+    }
 }

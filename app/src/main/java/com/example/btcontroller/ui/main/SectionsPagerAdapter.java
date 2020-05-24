@@ -26,10 +26,10 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
         Fragment fragment;
         switch (position) {
             case 0:
-                fragment = new ClientFragment(BSI);
+                fragment = ClientFragment.newInstance(BSI);
                 break;
             default:
-                fragment = new GraphFragment(BSI);
+                fragment = GraphFragment.newInstance(BSI);
                 break;
         }
         return fragment;

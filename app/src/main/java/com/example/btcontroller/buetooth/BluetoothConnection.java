@@ -38,6 +38,11 @@ public class BluetoothConnection extends Thread {
 
     @Override
     public void run() {
+        if (BSI == null) {
+            Log.e("NULL_BSI_REFERENCE","The BluetoothStreamsInterface instance reference is null");
+            return;
+        }
+
         if (connectToDevice() == 0) {
             BSI.setBluetoothSocket(bluetoothSocket);
         }
@@ -67,7 +72,7 @@ public class BluetoothConnection extends Thread {
         return 0;
     }
 
-    public void cancel() {
+    private void cancel() {
         try {
             bluetoothSocket.close();
         } catch (IOException e) {

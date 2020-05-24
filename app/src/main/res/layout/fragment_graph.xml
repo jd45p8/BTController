@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.GraphFragment">
 
+
     <com.example.btcontroller.ui.main.JoystickCanvas
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/canvas">
     </com.example.btcontroller.ui.main.JoystickCanvas>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

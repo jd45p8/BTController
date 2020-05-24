@@ -15,7 +15,8 @@
         <ListView
             android:id="@+id/list_devices"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:descendantFocusability="afterDescendants">
         </ListView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

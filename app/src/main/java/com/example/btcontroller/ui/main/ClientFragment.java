@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,8 +75,24 @@ public class ClientFragment extends Fragment {
         }
     };
 
-    public ClientFragment(BluetoothStreamsInterface BSI) {
-        super();
+    /**
+     * Method for creating new class instances
+     * @param BSI interface to communicate with the main activity
+     * @return the fragment object
+     */
+    public static ClientFragment newInstance(BluetoothStreamsInterface BSI) {
+        Bundle args = new Bundle();
+        ClientFragment fragment = new ClientFragment();
+        fragment.setArguments(args);
+        fragment.setBSI(BSI);
+        return fragment;
+    }
+
+    /**
+     * Assign the interface to communicate with main activity
+     * @param BSI Interface
+     */
+    private void setBSI(BluetoothStreamsInterface BSI) {
         this.BSI = BSI;
     }
 
@@ -170,6 +185,9 @@ public class ClientFragment extends Fragment {
      */
     private void connect(BluetoothDevice device, View v) {
         if (btConnect == null || btConnect.getState() == Thread.State.TERMINATED) {
+            if (BSI != null && BSI.isConnected()) {
+                BSI.closeConnection();
+            }
             btConnect = new BluetoothConnection(BSI, bluetoothAdapter, device, v);
             btConnect.start();
         }

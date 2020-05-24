@@ -29,4 +29,9 @@ public interface BluetoothStreamsInterface {
      * @return true if connection is active.
      */
     abstract boolean isConnected();
+
+    /**
+     * Method for closing bluetooth connection
+     */
+    abstract void closeConnection();
 }
